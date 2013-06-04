@@ -24,6 +24,7 @@ typedef enum {
 
 @property (strong) IBOutlet NSPopUpButton *defaultFormat;
 @property (strong) IBOutlet NSButton *openAtLogin;
+@property (strong) IBOutlet NSButton *palettePicker;
 @property (strong) IBOutlet NSButton *showColorPreview;
 @property (retain) RSLoginItems *loginItems;
 @property (retain) CustomStatusItem *statusItemView;
@@ -31,4 +32,5 @@ typedef enum {
 @property (strong) IBOutlet SRRecorderControl *recorderView;
 
 - (IBAction)controllerChanged:(id)sender;
+- (IBAction)paletteFileOpener:(id)sender;
 @end

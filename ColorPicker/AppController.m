@@ -24,9 +24,13 @@
 - (void)awakeFromNib
 {
     self.loginItems = [[RSLoginItems alloc] init];
+    self.paletteReader = [[PaletteReader alloc] init];
+    
     
     // Count app runs
 	NSUserDefaults *defs = [NSUserDefaults standardUserDefaults];
+    [[self paletteReader] checkForColorPalette];
+    
 	int timesRun = (int)[defs integerForKey:kUserDefaultsKeyTimesRun];
 	if (!timesRun)
 		timesRun = 1;

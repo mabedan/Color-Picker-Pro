@@ -1,6 +1,7 @@
 #import <Foundation/Foundation.h>
 #import "CustomWindow.h"
 #import "CustomStatusItem.h"
+#import "PaletteReader.h"
 
 @class ColorPickerView;
 @class RSLoginItems;
@@ -21,7 +22,7 @@
 @property (retain) NSTimer *updateTimer;
 @property (assign) BOOL updateMouseLocation;
 @property (assign) NSPoint mouseLocation;
-
+@property (retain) PaletteReader *paletteReader;
 - (void)toggleShowWindow;
 - (void)toggleShowWindowFromPoint:(NSPoint)point forceAnchoring:(BOOL)forceAnchoring;
 

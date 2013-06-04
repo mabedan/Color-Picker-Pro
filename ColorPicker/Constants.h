@@ -12,6 +12,8 @@
 #define kUserDefaultsKeyCode @"kUserDefaultsKeyCode"
 #define kUserDefaultsModifierKeys @"kUserDefaultsModifierKeys"
 
+#define kUserDefaultsPaletteUrl @"paletteURL"
+
 typedef enum {
     kFormatHEX,
     kFormatRGB,

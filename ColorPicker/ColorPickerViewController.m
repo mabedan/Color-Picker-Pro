@@ -29,6 +29,7 @@
 @synthesize updateColorsHistory;
 @synthesize colorHistoryView1, colorHistoryView2, colorHistoryView3, colorHistoryView4, colorHistoryView5;
 @synthesize x, y;
+@synthesize paletteColorName;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -101,6 +102,8 @@
     
     [x setStringValue:[NSString stringWithFormat:@"%.f", mouseLocation.x]];
     [y setStringValue:[NSString stringWithFormat:@"%.f", mouseLocation.y]];
+    
+    [paletteColorName setStringValue: [[appController paletteReader] getColorNameFor:currentColor]];
     
     [self updateHistoryView];
 }

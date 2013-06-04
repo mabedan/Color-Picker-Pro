@@ -43,14 +43,42 @@
     [defaultFormat selectItemAtIndex:[userDefaults integerForKey:kUserDefaultsDefaultFormat]];
     openAtLogin.state = [userDefaults boolForKey:kUserDefaultsKeyStartAtLogin];
     showColorPreview.state = [userDefaults boolForKey:kUserDefaultsShowMenuBarPreview];
-    
     // Set the default shortcut text
-
+    [self setFilePickerTitle];
+ 
     NSInteger code = [[userDefaults valueForKey:kUserDefaultsKeyCode] longValue];
     NSInteger flags = [[userDefaults valueForKey:kUserDefaultsModifierKeys] longValue];
     
     SRRecorderCell *cell = (SRRecorderCell *)[recorderView cell];
     cell.keyCombo = SRMakeKeyCombo(code, flags);
+}
+
+- (void)paletteFileOpener:(id)sender {
+    NSOpenPanel *openpanel = [NSOpenPanel openPanel];
+    openpanel.canChooseFiles = TRUE;
+    [openpanel setAllowedFileTypes:[NSArray arrayWithObjects:@"LESS", nil]];
+//    [openpanel setAllowedFileTypes:[NSImage imageFileTypes]];
+    openpanel.canCreateDirectories = FALSE;
+    [openpanel beginWithCompletionHandler: ^(NSInteger result){
+        if (result == NSFileHandlingPanelOKButton) {
+            NSURL*  theDoc = [[openpanel URLs] objectAtIndex:0];
+            [appController.paletteReader loadColorPaletteAt:theDoc];
+            // Open  the document.
+            [self setFilePickerTitle];           
+        }
+        
+    }];
+}
+
+- (void) setFilePickerTitle {
+    //file might have been broken or empty, therefore we check again
+    NSURL *url = [[NSUserDefaults standardUserDefaults] URLForKey:kUserDefaultsPaletteUrl];
+    if (url) {
+        NSString* lastComponent = [url lastPathComponent];
+        [[self palettePicker] setTitle: lastComponent];
+    } else {
+        [[self palettePicker] setTitle: @"Browse"];
+    }
 }
 
 - (IBAction)controllerChanged:(id)sender {
