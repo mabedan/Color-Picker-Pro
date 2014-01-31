@@ -8,39 +8,11 @@
 
 #import "PaletteReader.h"
 #import "DTColor+HTML.h"
-
+#import "ColorDataParser.h"
+#import "LessParser.h"
+#import "AcoParser.h"
 @implementation PaletteReader
 NSDictionary *colorPalette = NULL;
-#pragma mark - file handling
-
-- (BOOL) hasColorPalette {
-    return colorPalette != NULL;
-}
-- (void) checkForColorPalette {
-    NSURL * url = [[NSUserDefaults standardUserDefaults] URLForKey:kUserDefaultsPaletteUrl];
-    if (url) {
-        [self loadColorPaletteAt:url];
-    }
-}
-- (void) loadColorPaletteAt: (NSURL*) url {
-    
-    NSData *data;
-    
-    BOOL success = FALSE;
-    
-    //pass the data to the right parser
-    if ([[url pathExtension] isEqualToString:@"less"]) {
-        data = [NSData dataWithContentsOfURL:url];
-        success= [self parseLessData:data];
-    } /*if ([[url pathExtension] isEqualToString:@"aco"]) {}*/
-    
-    if (success) {
-        [[NSUserDefaults standardUserDefaults] setURL:url forKey:kUserDefaultsPaletteUrl];
-    } else {
-        [[NSUserDefaults standardUserDefaults] removeObjectForKey:kUserDefaultsPaletteUrl];
-    }
-}
-
 
 #pragma mark - color handling
 
@@ -77,92 +49,39 @@ NSDictionary *colorPalette = NULL;
     }
     return @"";
 }
-#pragma mark - lessparser
-/*
- extremely basic parser.
- only supports less files filled with colors. anything else will cause the file to be unreadable.
- less variables are not supported, nor color calculations.
- farther contributions are welcome.
- 
- double dash comments are accepted.
- example:
-/////////////
 
- @my-precious-color: red;
- @my-red: rgb(255,0,0);
- 
-/////////////
- 
- */
-- (BOOL) parseLessData:(NSData*)data {
-    NSString *output = [[[NSString alloc]initWithData:data
-                                             encoding:NSUTF8StringEncoding]
-                        stringByReplacingOccurrencesOfString:@" " withString:@""];
-    
-    BOOL insideComment = FALSE;
-    
-    NSMutableDictionary* mutable = [[NSMutableDictionary alloc] init];
-    BOOL success = FALSE;
-    BOOL isBreak = FALSE;
-    int lineStart = 0;
-    unichar chara;
-    
-    for (int i = 0; i < output.length; i++) {
-        chara = [output characterAtIndex:i];
-        isBreak = chara == '\n' || [output characterAtIndex:i] == '\r';
-        if (insideComment && isBreak) {
-            lineStart = i;
-            insideComment = FALSE;
-            continue;
-        }
-        
-        if (chara == '/' && output.length > i+1 && [output characterAtIndex:i+1] == '/') {
-            success = [self processLessLine:[output substringWithRange:NSMakeRange(lineStart, i - lineStart)] to:mutable] || success;
-            insideComment = TRUE;
-            i++;
-            continue;
-        }
-        if (chara == ';' && !insideComment) {
-            success = [self processLessLine:[output substringWithRange:NSMakeRange(lineStart, i - lineStart)] to:mutable] || success;
-            lineStart = i;
-            continue;
-        }
-    }
-    if (success) {
-        colorPalette = [NSDictionary dictionaryWithDictionary:mutable];
-        return TRUE;
-    } else {
-        return FALSE;
-    }
+#pragma mark - file handling
 
+- (BOOL) hasColorPalette {
+    return colorPalette != NULL;
 }
-
-- (BOOL) processLessLine: (NSString*) line to: (NSMutableDictionary*) dic{
-    NSString *name;
-    NSString *colorString;
-    NSColor *color;
-    NSArray *parts;
-    line = [line stringByReplacingOccurrencesOfString:@";" withString:@""];
-    line = [line stringByReplacingOccurrencesOfString:@"\r" withString:@""];
-    line = [line stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-    if (line.length < 4) {
-        return FALSE;
+- (void) checkForColorPalette {
+    NSURL * url = [[NSUserDefaults standardUserDefaults] URLForKey:kUserDefaultsPaletteUrl];
+    if (url) {
+        [self loadColorPaletteAt:url];
     }
-    parts = [line componentsSeparatedByString:@":"];
-    name = [parts objectAtIndex:0];
-    colorString = [parts objectAtIndex:1];
-    color = [NSColor colorWithHTMLName:colorString];
-    if (color) {
-        [dic setObject:color forKey:name];
+}
+- (void) loadColorPaletteAt: (NSURL*) url {
+    
+    NSData *data;
+    id<ColorDataParser> colorParser;
+    
+    data = [NSData dataWithContentsOfURL:url];
+    
+    //pass the data to the right parser
+    if ([[url pathExtension] isEqualToString:@"less"]) {
+        colorParser = [[LessParser alloc] init];
+    } if ([[url pathExtension] isEqualToString:@"aco"]) {
+        colorParser = [[AcoParser alloc] init];
     }
-    if (!color) {
-        color = [NSColor colorWithHexString:colorString];
+    
+    colorPalette = [colorParser parseColorData:data];
+    
+    if (colorPalette) {
+        [[NSUserDefaults standardUserDefaults] setURL:url forKey:kUserDefaultsPaletteUrl];
+    } else {
+        [[NSUserDefaults standardUserDefaults] removeObjectForKey:kUserDefaultsPaletteUrl];
     }
-    if (color) {
-        [dic setObject:color forKey:name];
-        return TRUE;
-    }
-    return FALSE;
 }
 
 @end

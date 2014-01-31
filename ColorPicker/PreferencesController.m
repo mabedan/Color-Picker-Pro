@@ -56,7 +56,7 @@
 - (void)paletteFileOpener:(id)sender {
     NSOpenPanel *openpanel = [NSOpenPanel openPanel];
     openpanel.canChooseFiles = TRUE;
-    [openpanel setAllowedFileTypes:[NSArray arrayWithObjects:@"LESS", nil]];
+    [openpanel setAllowedFileTypes:[NSArray arrayWithObjects:@"LESS", @"ACO", nil]];
 //    [openpanel setAllowedFileTypes:[NSImage imageFileTypes]];
     openpanel.canCreateDirectories = FALSE;
     [openpanel beginWithCompletionHandler: ^(NSInteger result){

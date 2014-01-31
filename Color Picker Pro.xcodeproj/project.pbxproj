@@ -45,6 +45,8 @@
 		55FE70C314210ECE007C8878 /* ShortcutRecorder.strings in Resources */ = {isa = PBXBuildFile; fileRef = 55FE70C214210ECE007C8878 /* ShortcutRecorder.strings */; };
 		7901C23A1758C9600012C7E8 /* PaletteReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 7901C2391758C9600012C7E8 /* PaletteReader.m */; };
 		7901C26B1758E7B50012C7E8 /* DTColor+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 7901C26A1758E7B50012C7E8 /* DTColor+HTML.m */; };
+		7982508B18911C0700EB971C /* LessParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 7982508A18911C0700EB971C /* LessParser.m */; };
+		7982509018911E9900EB971C /* AcoParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 7982508F18911E9900EB971C /* AcoParser.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -128,6 +130,11 @@
 		7901C2391758C9600012C7E8 /* PaletteReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaletteReader.m; sourceTree = "<group>"; };
 		7901C2691758E7AA0012C7E8 /* DTColor+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "DTColor+HTML.h"; sourceTree = "<group>"; };
 		7901C26A1758E7B50012C7E8 /* DTColor+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "DTColor+HTML.m"; sourceTree = "<group>"; };
+		7982508918911C0700EB971C /* LessParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LessParser.h; sourceTree = "<group>"; };
+		7982508A18911C0700EB971C /* LessParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LessParser.m; sourceTree = "<group>"; };
+		7982508C18911D5F00EB971C /* ColorDataParser.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ColorDataParser.h; sourceTree = "<group>"; };
+		7982508E18911E9900EB971C /* AcoParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AcoParser.h; sourceTree = "<group>"; };
+		7982508F18911E9900EB971C /* AcoParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AcoParser.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -223,6 +230,7 @@
 		55D4EC8513FFF18D00D13344 /* ColorPicker */ = {
 			isa = PBXGroup;
 			children = (
+				7982508818911BCF00EB971C /* paletteSupport */,
 				7901C26A1758E7B50012C7E8 /* DTColor+HTML.m */,
 				7901C2691758E7AA0012C7E8 /* DTColor+HTML.h */,
 				55FE70B114210E87007C8878 /* ShortcutRecorder */,
@@ -253,8 +261,6 @@
 				55A883401415F8EE0076BB4A /* PreferencesController.m */,
 				55A8834E14162EF80076BB4A /* HelpController.h */,
 				55A8834F14162EF80076BB4A /* HelpController.m */,
-				7901C2381758C9600012C7E8 /* PaletteReader.h */,
-				7901C2391758C9600012C7E8 /* PaletteReader.m */,
 			);
 			path = ColorPicker;
 			sourceTree = "<group>";
@@ -287,6 +293,20 @@
 				55FE70C214210ECE007C8878 /* ShortcutRecorder.strings */,
 			);
 			name = ShortcutRecorder;
+			sourceTree = "<group>";
+		};
+		7982508818911BCF00EB971C /* paletteSupport */ = {
+			isa = PBXGroup;
+			children = (
+				7901C2381758C9600012C7E8 /* PaletteReader.h */,
+				7901C2391758C9600012C7E8 /* PaletteReader.m */,
+				7982508C18911D5F00EB971C /* ColorDataParser.h */,
+				7982508918911C0700EB971C /* LessParser.h */,
+				7982508A18911C0700EB971C /* LessParser.m */,
+				7982508E18911E9900EB971C /* AcoParser.h */,
+				7982508F18911E9900EB971C /* AcoParser.m */,
+			);
+			name = paletteSupport;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -378,9 +398,11 @@
 				55A883421415F8EF0076BB4A /* PreferencesController.m in Sources */,
 				55A8835014162EF80076BB4A /* HelpController.m in Sources */,
 				5510B8FE141E4EF3005FD2CA /* EventsResponderView.m in Sources */,
+				7982509018911E9900EB971C /* AcoParser.m in Sources */,
 				55FE70BD14210E9C007C8878 /* SRCommon.m in Sources */,
 				55FE70BE14210E9C007C8878 /* SRKeyCodeTransformer.m in Sources */,
 				55FE70BF14210E9C007C8878 /* SRRecorderCell.m in Sources */,
+				7982508B18911C0700EB971C /* LessParser.m in Sources */,
 				55FE70C014210E9C007C8878 /* SRRecorderControl.m in Sources */,
 				55FE70C114210E9C007C8878 /* SRValidator.m in Sources */,
 				7901C23A1758C9600012C7E8 /* PaletteReader.m in Sources */,
